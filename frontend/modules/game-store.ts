@@ -55,25 +55,8 @@ function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameActio
 
         case 'MOVE_MINION':
             const minion = state.minions[action.minionId];
-            const nextCoords = {
-                x: minion.x,
-                y: minion.y,
-            };
-
-            switch (action.movementDirection) {
-                case 'up':
-                    nextCoords.y += 10;
-                    break;
-                case 'down':
-                    nextCoords.y -= 10;
-                    break;
-                case 'right':
-                    nextCoords.x += 10;
-                    break;
-                case 'left':
-                    nextCoords.x -= 10;
-                    break;
-            }
+            const newY = action.movementDirection === 'UP' ? minion.y + 10 : action.movementDirection === 'DOWN' ? minion.y - 10 : minion.y;
+            const newX = action.movementDirection === 'RIGHT' ? minion.x + 10 : action.movementDirection === 'LEFT' ? minion.x - 10 : minion.x;
 
             return {
                 ...state,
@@ -81,7 +64,8 @@ function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameActio
                     ...state.minions,
                     [minion.minionId]: {
                         ...minion,
-                        ...nextCoords,
+                        x: newX,
+                        y: newY
                     }
                 },
             };

@@ -4,4 +4,4 @@ export type Player = {
     readonly id: string;
 };
 
-export type Players = {[playerId: string]: Player};
+export type Players = Readonly<{readonly [playerId: string]: Readonly<Player>}>;

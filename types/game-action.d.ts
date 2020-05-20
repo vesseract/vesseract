@@ -16,5 +16,5 @@ export type AddPlayerAction = {
 export type MoveMinionAction = {
     readonly type: 'MOVE_MINION',
     readonly minionId: string,
-    readonly movementDirection: 'up' | 'down' | 'left' | 'right';
+    readonly movementDirection: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 };

@@ -5,4 +5,4 @@ export type Minion = {
     readonly minionId: string,
 };
 
-export type Minions = {[minionId: string]: Minion};
+export type Minions = Readonly<{readonly [minionId: string]: Readonly<Minion>}>;
