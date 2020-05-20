@@ -1,38 +1,45 @@
 import {createObjectStore} from "reduxular";
 import {GameAction} from "../../types/game-action";
 import {GameState} from "../../types/game-state";
-import {Player} from "../../types/player";
 import {getRandomString} from "./string";
 import {generateRandomColorString} from "./color";
 
-// placeholder until user can pick their own color and name
-export function generateRandomUserPlayer(): Player {
 
+function createInitialGameState(): GameState {
+    const user = {
+        color: generateRandomColorString(),
+        name: 'empty name',
+        id: getRandomString(),
+    };
+
+    const firstUserMinion = {
+        minionId: getRandomString(),
+        playerId: user.id,
+        x: 0,
+        y: 0,
+    }
 
     return {
-        color: generateRandomColorString(),
-        name: '',
-        id: getRandomString(),
+        minions: {
+            [firstUserMinion.minionId]: firstUserMinion
+        },
+        user,
+        players: {[user.id]: user},
     };
 }
 
-export const emptyGameState: Readonly<GameState> = {
-    minions: [],
-    user: undefined,
-    players: {},
-};
 
-export const GameStore = createObjectStore<Readonly<GameState>, Readonly<GameAction>>(emptyGameState, () => {}, gameStoreReducer);
+export const GameStore = createObjectStore<Readonly<GameState>, Readonly<GameAction>>(createInitialGameState(), () => {}, gameStoreReducer);
 
 function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameAction>): Readonly<GameState> {
     switch (action.type) {
         case 'ADD_MINION':
             return {
                 ...state,
-                minions: [
+                minions: {
                     ...state.minions,
-                    action.minion
-                ],
+                    [action.minion.minionId]: action.minion,
+                },
             };
         case 'ADD_PLAYER':
             if (state.players.hasOwnProperty(action.player.id)) {
@@ -45,20 +52,22 @@ function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameActio
                     [action.player.id]: action.player
                 },
             };
-        case 'CREATE_USER':
-            const user = generateRandomUserPlayer();
+
+        case 'MOVE_MINION':
+            const minion = state.minions[action.minionId];
+            const newY = action.movementDirection === 'UP' ? minion.y + 10 : action.movementDirection === 'DOWN' ? minion.y - 10 : minion.y;
+            const newX = action.movementDirection === 'RIGHT' ? minion.x + 10 : action.movementDirection === 'LEFT' ? minion.x - 10 : minion.x;
+
             return {
                 ...state,
-                user,
-                minions: [
+                minions: {
                     ...state.minions,
-                    // add a new minion for the player
-                    {
-                        x: 0,
-                        y: 0,
-                        playerId: user.id,
-                    },
-                ],
+                    [minion.minionId]: {
+                        ...minion,
+                        x: newX,
+                        y: newY
+                    }
+                },
             };
     }
 }

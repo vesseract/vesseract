@@ -1,7 +1,7 @@
 import {Minion} from "./minion";
 import {Player} from "./player";
 
-export type GameAction = AddMinionAction | AddPlayerAction | CreateUserAction;
+export type GameAction = AddMinionAction | AddPlayerAction | MoveMinionAction;
 
 export type AddMinionAction = {
     readonly type: 'ADD_MINION',
@@ -13,6 +13,8 @@ export type AddPlayerAction = {
     readonly player: Readonly<Player>,
 };
 
-export type CreateUserAction = {
-    readonly type: 'CREATE_USER',
+export type MoveMinionAction = {
+    readonly type: 'MOVE_MINION',
+    readonly minionId: string,
+    readonly movementDirection: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 };
