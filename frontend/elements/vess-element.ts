@@ -2,7 +2,7 @@ import {render as litRender, TemplateResult} from 'lit-html';
 import {ReduxularElement, ReduxularListener} from 'reduxular';
 
 export abstract class VessElement<State> extends ReduxularElement<State> {
-    private readonly renderRoot: ShadowRoot;
+    protected readonly renderRoot: ShadowRoot;
 
     constructor(
         initialState: State,
