@@ -1,19 +1,19 @@
 import {html} from 'lit-html';
-import {State} from '../types/state.d';
 import {VessElement} from './vess-element';
 
-const InitialState: Readonly<State> = {
-    things: []
+type VessAppState = {
 };
 
-class VessApp extends VessElement<State> {
+const initialVessAppState: Readonly<VessAppState> = {};
+
+class VessApp extends VessElement<VessAppState> {
     constructor() {
-        super(InitialState);
+        super(initialVessAppState);
     }
 
-    protected render(state: Readonly<State>) {
+    protected render(state: Readonly<VessAppState>) {
         return html`
-            <h1>Welcome to the Himilayas!</h1>
+            <canvas></canvas>
         `;
     }
 }
