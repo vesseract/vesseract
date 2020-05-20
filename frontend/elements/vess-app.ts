@@ -1,9 +1,10 @@
 import { html, render as litRender } from 'lit-html';
 import { createObjectStore } from 'reduxular';
+import { State } from '../types/state.d';
 
-type State = {};
-
-const InitialState: Readonly<State> = {};
+const InitialState: Readonly<State> = {
+    things: []
+};
 
 class VESSApp extends HTMLElement {
 
