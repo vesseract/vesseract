@@ -7,3 +7,7 @@ export function getRandomString(length: number = 16) {
     window.crypto.getRandomValues(array);
     return Array.from(array, dec2hex).join('');
 }
+
+export function pxToNumber(pixelValue: string) {
+    return Number(pixelValue.replace('px', ''));
+}

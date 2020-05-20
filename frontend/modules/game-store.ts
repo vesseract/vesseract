@@ -29,7 +29,24 @@ function createInitialGameState(): GameState {
 }
 
 
-export const GameStore = createObjectStore<Readonly<GameState>, Readonly<GameAction>>(createInitialGameState(), () => {}, gameStoreReducer);
+export const GameStore = createObjectStore<Readonly<GameState>, Readonly<GameAction>>(createInitialGameState(), () => {}, {}, gameStoreReducer);
+
+//  for the debuggins
+(window as any).GameStore = GameStore;
+(window as any).addMinion = (x = 100, y = 100) => {
+    const user = GameStore.getState().user;
+    console.log(user);
+    if (user) {
+        GameStore.dispatch({
+            type: 'ADD_MINION', minion: {
+                x,
+                y,
+                playerId: user.id,
+                minionId: getRandomString()
+            }
+        })
+    }
+};
 
 function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameAction>): Readonly<GameState> {
     switch (action.type) {
@@ -69,5 +86,8 @@ function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameActio
                     }
                 },
             };
+
+        default:
+            return state;
     }
 }
