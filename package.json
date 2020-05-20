@@ -1,0 +1,29 @@
+{
+  "name": "vesseract",
+  "version": "0.0.0",
+  "description": "Vesseract is an open source video game",
+  "scripts": {
+    "start": "zwitterion --port 4060"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vesseract/vesseract.git"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vesseract/vesseract/issues"
+  },
+  "homepage": "https://github.com/vesseract/vesseract#readme",
+  "contributors": [
+    "electrovir",
+    "Jordan Last <jordan.michael.last@gmail.com>"
+  ],
+  "devDependencies": {
+    "zwitterion": "0.45.0"
+  },
+  "dependencies": {
+    "lit-html": "1.2.1",
+    "reduxular": "0.0.6"
+  }
+}
