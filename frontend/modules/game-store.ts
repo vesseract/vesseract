@@ -1,13 +1,20 @@
-import {Player, generateRandomUserPlayer} from "../player";
-import {Minion} from "../minion";
 import {createObjectStore} from "reduxular";
-import {GameAction} from "./game-action";
+import {GameAction} from "../../types/game-action";
+import {GameState} from "../../types/game-state";
+import {Player} from "../../types/player";
+import {getRandomString} from "./string";
+import {generateRandomColorString} from "./color";
 
-export type GameState = {
-    readonly minions: ReadonlyArray<Minion>;
-    readonly user: Readonly<Player> | undefined;
-    readonly players: {[playerId: string]: Player};
-};
+// placeholder until user can pick their own color and name
+export function generateRandomUserPlayer(): Player {
+
+
+    return {
+        color: generateRandomColorString(),
+        name: '',
+        id: getRandomString(),
+    };
+}
 
 export const emptyGameState: Readonly<GameState> = {
     minions: [],
@@ -19,7 +26,7 @@ export const GameStore = createObjectStore<Readonly<GameState>, Readonly<GameAct
 
 function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameAction>): Readonly<GameState> {
     switch (action.type) {
-        case 'add-minion':
+        case 'ADD_MINION':
             return {
                 ...state,
                 minions: [
@@ -27,7 +34,7 @@ function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameActio
                     action.minion
                 ],
             };
-        case 'add-player':
+        case 'ADD_PLAYER':
             if (state.players.hasOwnProperty(action.player.id)) {
                 throw new Error(`Player with id "${action.player.id}" already exists.`);
             }
@@ -38,11 +45,11 @@ function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameActio
                     [action.player.id]: action.player
                 },
             };
-        case 'create-user':
+        case 'CREATE_USER':
             const user = generateRandomUserPlayer();
             return {
                 ...state,
-                user: user,
+                user,
                 minions: [
                     ...state.minions,
                     // add a new minion for the player
