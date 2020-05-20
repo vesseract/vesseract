@@ -72,7 +72,7 @@ function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameActio
 
         case 'MOVE_MINION':
             const minion = state.minions[action.minionId];
-            const newY = action.movementDirection === 'UP' ? minion.y + 10 : action.movementDirection === 'DOWN' ? minion.y - 10 : minion.y;
+            const newY = action.movementDirection === 'UP' ? minion.y - 10 : action.movementDirection === 'DOWN' ? minion.y + 10 : minion.y;
             const newX = action.movementDirection === 'RIGHT' ? minion.x + 10 : action.movementDirection === 'LEFT' ? minion.x - 10 : minion.x;
 
             return {
