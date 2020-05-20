@@ -1,0 +1,35 @@
+{
+  "name": "vesseract",
+  "version": "0.0.0",
+  "description": "Vesseract is an open source video game",
+  "scripts": {
+    "start": "concurrently \"npm run zwitterion\" \"npm run signaling\"",
+    "zwitterion": "zwitterion --port 4060",
+    "signaling": "ts-node --transpile-only backend/signaling.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vesseract/vesseract.git"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vesseract/vesseract/issues"
+  },
+  "homepage": "https://github.com/vesseract/vesseract#readme",
+  "contributors": [
+    "electrovir",
+    "Jordan Last <jordan.michael.last@gmail.com>"
+  ],
+  "devDependencies": {
+    "@types/ws": "7.2.4",
+    "concurrently": "5.2.0",
+    "zwitterion": "0.45.0"
+  },
+  "dependencies": {
+    "lit-html": "1.2.1",
+    "reduxular": "0.0.6",
+    "ts-node": "8.10.1",
+    "ws": "7.3.0"
+  }
+}
