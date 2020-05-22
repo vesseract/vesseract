@@ -45,7 +45,7 @@ server.on('connection', (client: Readonly<WebSocket>) => {
         clients[deserializedMessage.remoteAddress].client.send(JSON.stringify(deserializedMessage));
     });
 
-    client.on('close', (e: Readonly<WebSocketEventMap.) => {
+    client.on('close', (e: Readonly<WebSocketEventMap>) => {
         console.log('close', e);
     });
 });
