@@ -1,15 +1,16 @@
-import {createObjectStore} from "reduxular";
-import {GameAction} from "../../types/game-action";
-import {GameState} from "../../types/game-state";
-import {getRandomString} from "./string";
-import {generateRandomColorString} from "./color";
+import {createObjectStore} from 'reduxular';
 
+import {GameAction} from '../../types/game-action';
+import {GameState} from '../../types/game-state';
+
+import {generateRandomColorString} from './color';
+import {getRandomString} from './string';
 
 function createInitialGameState(): GameState {
     const user = {
         color: generateRandomColorString(),
-        name: 'empty name',
         id: getRandomString(),
+        name: 'empty name',
     };
 
     const firstUserMinion = {
@@ -17,19 +18,19 @@ function createInitialGameState(): GameState {
         playerId: user.id,
         x: 0,
         y: 0,
-    }
+    };
 
     return {
-        minions: {
-            [firstUserMinion.minionId]: firstUserMinion
-        },
-        user,
+        minions: {[firstUserMinion.minionId]: firstUserMinion},
         players: {[user.id]: user},
+        user,
     };
 }
 
-
-export const GameStore = createObjectStore<Readonly<GameState>, Readonly<GameAction>>(createInitialGameState(), () => {}, {}, gameStoreReducer);
+export const GameStore = createObjectStore<
+    Readonly<GameState>,
+    Readonly<GameAction>
+>(createInitialGameState(), () => {}, {}, gameStoreReducer);
 
 //  for the debuggins
 (window as any).GameStore = GameStore;
@@ -38,17 +39,21 @@ export const GameStore = createObjectStore<Readonly<GameState>, Readonly<GameAct
     console.log(user);
     if (user) {
         GameStore.dispatch({
-            type: 'ADD_MINION', minion: {
+            minion: {
+                minionId: getRandomString(),
+                playerId: user.id,
                 x,
                 y,
-                playerId: user.id,
-                minionId: getRandomString()
-            }
-        })
+            },
+            type: 'ADD_MINION',
+        });
     }
 };
 
-function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameAction>): Readonly<GameState> {
+function gameStoreReducer(
+    state: Readonly<GameState>,
+    action: Readonly<GameAction>,
+): Readonly<GameState> {
     switch (action.type) {
         case 'ADD_MINION':
             return {
@@ -60,20 +65,32 @@ function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameActio
             };
         case 'ADD_PLAYER':
             if (state.players.hasOwnProperty(action.player.id)) {
-                throw new Error(`Player with id "${action.player.id}" already exists.`);
+                throw new Error(
+                    `Player with id "${action.player.id}" already exists.`,
+                );
             }
             return {
                 ...state,
                 players: {
                     ...state.players,
-                    [action.player.id]: action.player
+                    [action.player.id]: action.player,
                 },
             };
 
         case 'MOVE_MINION':
             const minion = state.minions[action.minionId];
-            const newY = action.movementDirection === 'UP' ? minion.y - 10 : action.movementDirection === 'DOWN' ? minion.y + 10 : minion.y;
-            const newX = action.movementDirection === 'RIGHT' ? minion.x + 10 : action.movementDirection === 'LEFT' ? minion.x - 10 : minion.x;
+            const newY =
+                action.movementDirection === 'UP'
+                    ? minion.y - 10
+                    : action.movementDirection === 'DOWN'
+                    ? minion.y + 10
+                    : minion.y;
+            const newX =
+                action.movementDirection === 'RIGHT'
+                    ? minion.x + 10
+                    : action.movementDirection === 'LEFT'
+                    ? minion.x - 10
+                    : minion.x;
 
             return {
                 ...state,
@@ -82,8 +99,8 @@ function gameStoreReducer(state: Readonly<GameState>, action: Readonly<GameActio
                     [minion.minionId]: {
                         ...minion,
                         x: newX,
-                        y: newY
-                    }
+                        y: newY,
+                    },
                 },
             };
 

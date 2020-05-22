@@ -1,20 +1,20 @@
-import {Minion} from "./minion";
-import {Player} from "./player";
+import {Minion} from './minion';
+import {Player} from './player';
 
 export type GameAction = AddMinionAction | AddPlayerAction | MoveMinionAction;
 
 export type AddMinionAction = {
-    readonly type: 'ADD_MINION',
-    readonly minion: Readonly<Minion>,
+    readonly minion: Readonly<Minion>;
+    readonly type: 'ADD_MINION';
 };
 
 export type AddPlayerAction = {
-    readonly type: 'ADD_PLAYER',
-    readonly player: Readonly<Player>,
+    readonly player: Readonly<Player>;
+    readonly type: 'ADD_PLAYER';
 };
 
 export type MoveMinionAction = {
-    readonly type: 'MOVE_MINION',
-    readonly minionId: string,
+    readonly minionId: string;
     readonly movementDirection: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
+    readonly type: 'MOVE_MINION';
 };
