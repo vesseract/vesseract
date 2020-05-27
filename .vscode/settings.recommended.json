@@ -1,0 +1,14 @@
+{
+    "[html]": {"editor.defaultFormatter": "esbenp.prettier-vscode"},
+    "[javascript]": {"editor.defaultFormatter": "dbaeumer.vscode-eslint"},
+    "[json]": {"editor.defaultFormatter": "dbaeumer.vscode-eslint"},
+    "[jsonc]": {"editor.defaultFormatter": "dbaeumer.vscode-eslint"},
+    "[typescript]": {"editor.defaultFormatter": "dbaeumer.vscode-eslint"},
+    "cSpell.words": ["vess"],
+    "editor.codeActionsOnSave": {"source.fixAll.eslint": true},
+    "editor.formatOnSave": true,
+    "editor.rulers": [80],
+    "eslint.format.enable": true,
+    "eslint.probe": ["javascript", "typescript", "json", "jsonc"],
+    "eslint.validate": ["json", "jsonc", "typescript", "javascript"]
+}

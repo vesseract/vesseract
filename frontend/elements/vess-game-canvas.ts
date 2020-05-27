@@ -1,26 +1,27 @@
 import {html} from 'lit-html';
-import {VessElement} from './vess-element';
-import {GameStore} from '../modules/game-store';
+
 import {GameState} from '../../types/game-state';
 import {Minion} from '../../types/minion';
+import {GameStore} from '../modules/game-store';
 import {pxToNumber} from '../modules/string';
+
+import {VessElement} from './vess-element';
 
 type PressedKeys = {[keyName: string]: boolean};
 
 type VessGameCanvasState = {
-    paused: boolean;
     height: number;
-    width: number;
+    paused: boolean;
     pressedKeys: PressedKeys;
+    width: number;
 };
 
 const initialVessGameCanvasState: Readonly<VessGameCanvasState> = {
-    paused: false,
     height: -1,
-    width: -1,
+    paused: false,
     pressedKeys: {},
+    width: -1,
 };
-
 
 class VessGameCanvas extends VessElement<VessGameCanvasState> {
     private canvas: HTMLCanvasElement | undefined;
@@ -45,7 +46,11 @@ class VessGameCanvas extends VessElement<VessGameCanvasState> {
         this.addEventListener('blur', () => this.resetPressedKeys());
     }
 
-    private drawMinion(minion: Minion, color: string, context: CanvasRenderingContext2D) {
+    private drawMinion(
+        minion: Minion,
+        color: string,
+        context: CanvasRenderingContext2D,
+    ) {
         context.fillStyle = color;
         context.fillRect(minion.x - 10, minion.y - 10, 20, 20);
     }
@@ -54,7 +59,11 @@ class VessGameCanvas extends VessElement<VessGameCanvasState> {
         this.store.pressedKeys = {};
     }
 
-    private drawToCanvas(gameState: GameState, context: CanvasRenderingContext2D, canvasState: VessGameCanvasState) {
+    private drawToCanvas(
+        gameState: GameState,
+        context: CanvasRenderingContext2D,
+        canvasState: VessGameCanvasState,
+    ) {
         context.clearRect(0, 0, canvasState.width, canvasState.height);
         Object.keys(gameState.minions).forEach(minionId => {
             const minion = gameState.minions[minionId];
@@ -81,23 +90,40 @@ class VessGameCanvas extends VessElement<VessGameCanvasState> {
 
     private handleKeys(keys: PressedKeys) {
         if (keys.ArrowUp || keys.w) {
-            GameStore.dispatch({type: 'MOVE_MINION', movementDirection: 'UP', minionId: Object.keys(GameStore.getState().minions)[0]});
+            GameStore.dispatch({
+                minionId: Object.keys(GameStore.getState().minions)[0],
+                movementDirection: 'UP',
+                type: 'MOVE_MINION',
+            });
         }
         if (keys.ArrowDown || keys.s) {
-            GameStore.dispatch({type: 'MOVE_MINION', movementDirection: 'DOWN', minionId: Object.keys(GameStore.getState().minions)[0]});
+            GameStore.dispatch({
+                minionId: Object.keys(GameStore.getState().minions)[0],
+                movementDirection: 'DOWN',
+                type: 'MOVE_MINION',
+            });
         }
         if (keys.ArrowLeft || keys.a) {
-            GameStore.dispatch({type: 'MOVE_MINION', movementDirection: 'LEFT', minionId: Object.keys(GameStore.getState().minions)[0]});
+            GameStore.dispatch({
+                minionId: Object.keys(GameStore.getState().minions)[0],
+                movementDirection: 'LEFT',
+                type: 'MOVE_MINION',
+            });
         }
         if (keys.ArrowRight || keys.d) {
-            GameStore.dispatch({type: 'MOVE_MINION', movementDirection: 'RIGHT', minionId: Object.keys(GameStore.getState().minions)[0]});
+            GameStore.dispatch({
+                minionId: Object.keys(GameStore.getState().minions)[0],
+                movementDirection: 'RIGHT',
+                type: 'MOVE_MINION',
+            });
         }
     }
 
     private animateCanvas(context?: CanvasRenderingContext2D): void {
         if (!context) {
             if (!this.canvas) {
-                this.canvas = this.renderRoot.querySelector('canvas') || undefined;
+                this.canvas =
+                    this.renderRoot.querySelector('canvas') || undefined;
             }
             if (this.canvas) {
                 context = this.canvas.getContext('2d') || undefined;
@@ -117,11 +143,10 @@ class VessGameCanvas extends VessElement<VessGameCanvasState> {
 
     public connectedCallback() {
         this.animateCanvas();
-        this.focus()
+        this.focus();
     }
 
     protected render(state: Readonly<VessGameCanvasState>) {
-
         return html`
             <style>
                 :host {
@@ -129,11 +154,11 @@ class VessGameCanvas extends VessElement<VessGameCanvasState> {
                     position: relative;
                     box-sizing: border-box;
                 }
-                
+
                 :host(:focus) {
                     outline: none;
                 }
-                
+
                 canvas {
                     position: absolute;
                     box-sizing: border-box;
@@ -142,7 +167,9 @@ class VessGameCanvas extends VessElement<VessGameCanvasState> {
                     width: 100%;
                 }
             </style>
-            <canvas height=${state.height} width=${state.width}>Canvas not supported</canvas>
+            <canvas height=${state.height} width=${state.width}>
+                Canvas not supported
+            </canvas>
         `;
     }
 }

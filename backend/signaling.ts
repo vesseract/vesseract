@@ -1,13 +1,10 @@
-import {
-    VESSClient
-} from '../index.d';
 import * as WebSocket from 'ws';
+
+import {VESSClient} from '../index.d';
 
 const webSocketPort = 4065;
 
-const server = new WebSocket.Server({
-    port: webSocketPort
-});
+const server = new WebSocket.Server({port: webSocketPort});
 
 console.log(`WebSocket server listening on port ${webSocketPort}`);
 
@@ -16,7 +13,6 @@ let clients: {
 } = {};
 
 server.on('connection', (client: Readonly<WebSocket>) => {
-
     console.log('connection', client);
 
     client.on('message', (message: Readonly<WebSocket.Data>) => {
@@ -25,16 +21,15 @@ server.on('connection', (client: Readonly<WebSocket>) => {
         console.log('deserializedMessage', deserializedMessage);
 
         if (deserializedMessage.type === 'INITIAL_CONNECTION') {
-            
             clients = {
                 ...clients,
                 [deserializedMessage.localAddress]: {
+                    client,
                     // timestamp: new Date().toLocaleDateString(), // TODO may not be necessary
                     localAddress: deserializedMessage.localAddress,
-                    client
-                }
+                },
             };
-            
+
             return;
         }
 
@@ -42,10 +37,12 @@ server.on('connection', (client: Readonly<WebSocket>) => {
             return;
         }
 
-        clients[deserializedMessage.remoteAddress].client.send(JSON.stringify(deserializedMessage));
+        clients[deserializedMessage.remoteAddress].client.send(
+            JSON.stringify(deserializedMessage),
+        );
     });
 
-    client.on('close', (e: Readonly<WebSocketEventMap.) => {
+    client.on('close', (e: Readonly<WebSocketEventMap>) => {
         console.log('close', e);
     });
 });

@@ -1,0 +1,106 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:import-order-all/typescript",
+        "plugin:prettier/recommended"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "overrides": [
+        {
+            "files": ["package.json"],
+            "parser": "Espree",
+            "plugins": ["json-files", "sort-keys-fix", "prettier"],
+            "rules": {
+                "json-files/sort-package-json": "error",
+                "max-len": "off"
+            }
+        },
+        {
+            "files": ["*.json"],
+            "rules": {"max-len": "off"}
+        },
+        {
+            "files": ["*.ts", "*.js"],
+            "parserOptions": {
+                "ecmaVersion": 2018,
+                "project": "./tsconfig.json",
+                "sourceType": "module"
+            },
+            "plugins": [
+                "@typescript-eslint",
+                "unused-imports",
+                "import-order-all",
+                "typescript-sort-keys",
+                "sort-keys-fix",
+                "prettier"
+            ],
+            "rules": {
+                "@typescript-eslint/ban-ts-comment": "error",
+                "@typescript-eslint/class-literal-property-style": [
+                    "error",
+                    "fields"
+                ],
+                "@typescript-eslint/explicit-member-accessibility": [
+                    "error",
+                    {"overrides": {"constructors": "off"}}
+                ],
+                "@typescript-eslint/member-delimiter-style": "error",
+                "@typescript-eslint/no-floating-promises": "error",
+                "@typescript-eslint/type-annotation-spacing": "error",
+                "import-order-all/first": "error",
+                "import-order-all/newline-after-import": "error",
+                "import-order-all/order": [
+                    "error",
+                    {
+                        "alphabetize": {
+                            "caseInsensitive": true,
+                            "order": "asc"
+                        },
+                        "groups": [
+                            "builtin",
+                            "external",
+                            "internal",
+                            "parent",
+                            "sibling",
+                            "index"
+                        ],
+                        "newlines-between": "always"
+                    }
+                ],
+                "no-case-declarations": "off",
+                "no-prototype-builtins": "off",
+                "no-unused-vars": "off",
+                "no-var": "error",
+                "object-property-newline": "error",
+                "object-shorthand": ["error", "always"],
+                "one-var": [
+                    "error",
+                    {
+                        "const": "never",
+                        "let": "never",
+                        "var": "never"
+                    }
+                ],
+                "prefer-const": "error",
+                "typescript-sort-keys/interface": "error",
+                "typescript-sort-keys/string-enum": "error",
+                "unused-imports/no-unused-imports-ts": "error"
+            }
+        }
+    ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["sort-keys-fix", "prettier"],
+    "rules": {
+        "prettier/prettier": "error",
+        "sort-keys": "off",
+        "sort-keys-fix/sort-keys-fix": "error"
+    }
+}

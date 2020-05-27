@@ -4,10 +4,7 @@ import {ReduxularElement, ReduxularListener} from 'reduxular';
 export abstract class VessElement<State> extends ReduxularElement<State> {
     protected readonly renderRoot: ShadowRoot;
 
-    constructor(
-        initialState: State,
-        listener?: ReduxularListener<State>,
-    ) {
+    constructor(initialState: State, listener?: ReduxularListener<State>) {
         super(initialState, state => {
             listener && listener(state);
             litRender(this.render(state), this.renderRoot);
