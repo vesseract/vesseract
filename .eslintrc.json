@@ -6,7 +6,7 @@
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:import/typescript",
+        "plugin:import-order-all/typescript",
         "plugin:prettier/recommended"
     ],
     "globals": {
@@ -37,7 +37,7 @@
             "plugins": [
                 "@typescript-eslint",
                 "unused-imports",
-                "import",
+                "import-order-all",
                 "typescript-sort-keys",
                 "sort-keys-fix",
                 "prettier"
@@ -55,9 +55,9 @@
                 "@typescript-eslint/member-delimiter-style": "error",
                 "@typescript-eslint/no-floating-promises": "error",
                 "@typescript-eslint/type-annotation-spacing": "error",
-                "import/first": "error",
-                "import/newline-after-import": "error",
-                "import/order": [
+                "import-order-all/first": "error",
+                "import-order-all/newline-after-import": "error",
+                "import-order-all/order": [
                     "error",
                     {
                         "alphabetize": {
